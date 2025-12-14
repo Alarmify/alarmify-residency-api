@@ -66,8 +66,25 @@ func RegisterHealthRoutes(r *Router, handler *handlers.HealthHandler) {
 func RegisterAPIRoutes(r *Router, handler *handlers.APIHandler) {
 	v1 := r.Group("/api/v1")
 	{
-		// TODO: Add API-specific routes here
+		// API info
 		v1.GET("/", handler.GetInfo)
+		
+		// /policies routes
+		policies := v1.Group("/policies")
+		{
+			policies.GET("/", handler.ListPolicies)
+			policies.POST("/", handler.CreatePolicy)
+		}
+		// /locations routes
+		locations := v1.Group("/locations")
+		{
+			locations.GET("/", handler.GetDataLocations)
+		}
+		// /validate routes
+		validate := v1.Group("/validate")
+		{
+			validate.POST("/", handler.ValidateCompliance)
+		}
 	}
 }
 
